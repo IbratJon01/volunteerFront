@@ -6,6 +6,7 @@ import Home from './companents/Home/AppBar'
 import Search from './companents/search/App'
 import LoginPage from './companents/LoginPage/LoginPage';
 
+
 function App() {
   // Check if localStorage is available in the current environment
   const isLocalStorageAvailable = typeof localStorage !== 'undefined';
