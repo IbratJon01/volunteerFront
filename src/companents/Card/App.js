@@ -1,10 +1,4 @@
 import React, { useState } from 'react';
-import {
-  Container,
-  CssBaseline,
-  Typography,
-
-} from '@mui/material';
 
 import VolunteerList from './VolunteerList';
 

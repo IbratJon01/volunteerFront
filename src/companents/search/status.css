@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300&display=swap');
+
+
+.profel_img2{
+       margin-top: -50px;
+       margin-left: 30px;
+}
+
+  
+  /* Sozlamalar (Settings) buttoni */
+  .settings-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    float: right;
+    border: #ffffff;
+  }
+  .userNameOther{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    float: right;
+    border: #ffffff;
+    color: #ffffff;
+  }
+  
+  /* Logout/Edit buttonlar */
+  .logout-edit-buttons {
+    position: absolute;
+    top: 10px;
+    right: 70px;
+  }
+.img__status {
+    min-width: 90px;
+    min-height:90px;
+    border: 3px solid #ffffff;
+ 
+}
+.bio{
+    background-color: white;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 7px;
+}
+
+.follow_status{
+    margin-top: 7px;
+}
+
+.follow{
+    margin-right: 5px;
+}
+.text_follow_name{
+    font-size: 14px;
+    font-family: 'Lexend', sans-serif;
+}
+.link{
+    color: black;
+}

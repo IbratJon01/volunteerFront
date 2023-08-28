@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -18,6 +18,22 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import Card from '../Card/App'
+import Admin from '../Volunteer/App'
+import Search from '../search/App'
+
+import {
+  AccountBox,
+  Article,
+  Group,
+  Home,
+  ModeNight,
+  Person,
+  Settings,
+  Storefront,
+} from "@mui/icons-material";
+import { Link } from 'react-router-dom';
+import { Grid } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -78,11 +94,23 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+
+
+  const items = [
+    { text: 'Admin', icon: <InboxIcon />, component: <Admin/> },
+    { text: 'Members', icon: <Group />, component: <Card/> }
+  ];
+  const [selectedComponent, setSelectedComponent] = useState(null);
+
+  const handleItemClick = (component) => {
+    setSelectedComponent(component);
+  };
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar>
+        <Toolbar style={{height:"80px"}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -92,9 +120,17 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+        
+          <Grid container>
+            <Grid item xs={2}><Typography marginTop={1} variant="h6" noWrap component="div">
             Persistent drawer
-          </Typography>
+          </Typography></Grid>
+            <Grid item xs={10}>   <div style={{marginTop: "2px",right: "10px",float: "right"}}>   <Search/></div></Grid>
+ 
+         </Grid>
+      
+       
+         
         </Toolbar>
       </AppBar>
       <Drawer
@@ -111,55 +147,34 @@ export default function PersistentDrawerLeft() {
         open={open}
       >
         <DrawerHeader>
+          <>aa</>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === 'ltr' ?<> <ChevronLeftIcon /> </> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
-        <Divider />
+     
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        {items.map((item, index) => (
+          <ListItem disablePadding key={index}>
+            <ListItemButton
+              selected={selectedComponent === item.component}
+              onClick={() => handleItemClick(item.component)}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-          Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-          feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-          sapien faucibus et molestie ac.
-        </Typography>
+    
+        {selectedComponent}
+      
    
       </Main>
     </Box>
   );
 }
+
