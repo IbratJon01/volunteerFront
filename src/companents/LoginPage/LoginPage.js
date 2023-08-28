@@ -1,19 +1,37 @@
 import React, { Component } from 'react';
 import './LoginPage.css'
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import inst_image from '../../images/9364675fb26a.svg';
 import insta_logo from '../../images/logoinsta.png';
 import fb from '../../images/fb.png'
+import google from '../../images/icons8-google-96.svg'
 import appstore from '../../images/app.png'
 import playstore from '../../images/play.png'
 import SignIN from '../SignIn/SignIN';
 import SignUp from '../SignUp/SignUp';
+import { auth } from '../firebase';
+import { GoogleAuthProvider , signInWithPopup } from 'firebase/auth';
+
 
 class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.state= {
             isLogin:true
+        }
+    }
+
+    handelGoogle = async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+          
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            localStorage.setItem("users",JSON.stringify(user));
+            window.location.reload();
+            console.log("Kirish muvaffaqiyatli amalga oshirildi", result.user);
+        } catch (error) {
+            console.error("Kirishda xatolik yuz berdi", error);
         }
     }
 
@@ -53,7 +71,10 @@ class LoginPage extends Component {
                                         </div>
 
                                         <div className="login__fb">
-                                            <img src={fb} width="15px" style={{ "marginRight":"5px" }} />Log in with Facebook
+                                      
+                                            <Button variant="text" startIcon={<img src={google} width="18px" style={{ "marginRight":"5px" }} />}
+                                            onClick={this.handelGoogle}><span style={{fontSize:15}}> Log in with Google</span></Button>
+                                           
                                         </div>
                                         <div className="login_forgt"> Forgot password?</div>
                                    </div>

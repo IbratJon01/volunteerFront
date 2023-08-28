@@ -21,7 +21,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import Card from '../Card/App'
 import Admin from '../Volunteer/App'
 import Search from '../search/App'
-
+import LogoutIcon from '@mui/icons-material/Logout';
+import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded';
 import {
   AccountBox,
   Article,
@@ -31,6 +32,7 @@ import {
   Person,
   Settings,
   Storefront,
+
 } from "@mui/icons-material";
 import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material';
@@ -94,10 +96,15 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
-
+  const handleLogout = () => {
+    // LocalStorage yordamida tizimdan chiqish amalini bajarish
+    localStorage.clear(); // yoki kerakli ma'lumotni o'chirish
+    // Endi foydalanuvchini tizim kirish sahifasiga yo'naltirish mumkin
+    window.location.href = '/'; // login sahifasiga yo'naltirish
+  };
 
   const items = [
-    { text: 'Admin', icon: <InboxIcon />, component: <Admin/> },
+    { text: 'Admin', icon: <AdminPanelSettingsRoundedIcon />, component: <Admin/> },
     { text: 'Members', icon: <Group />, component: <Card/> }
   ];
   const [selectedComponent, setSelectedComponent] = useState(null);
@@ -165,6 +172,16 @@ export default function PersistentDrawerLeft() {
             </ListItemButton>
           </ListItem>
         ))}
+
+          <ListItem disablePadding >
+            <ListItemButton
+            
+              onClick={handleLogout}
+            >
+              <ListItemIcon><LogoutIcon /></ListItemIcon>
+              <ListItemText>Logout</ListItemText>
+            </ListItemButton>
+          </ListItem>
       </List>
       </Drawer>
       <Main open={open}>

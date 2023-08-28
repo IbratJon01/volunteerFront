@@ -23,8 +23,9 @@ body {
 }
 .logipage__text{
     width:258px;
-    height: 36px;
+    height: 60px;
     margin:5px;
+
     border: 1px solid #DBDBDB;
     background-color: #FAFAFA;
     padding-left: 10px;
