@@ -23,17 +23,17 @@ class SignUp extends Component {
         // Signed in 
         const user = userCredential.user;
         let payload = {
-          "userId": user.uid,
-          "userName": this.state.userName,
-          "name": this.state.name,
-          "profileImage": ""
+          "volunteerId": user.uid,
+          "firstName": this.state.userName,
+          "lastName": this.state.name,
+          "email":this.state.emailId
       }
       const requestOptions ={
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body : JSON.stringify(payload),
     }
-      fetch("http://localhost:8080/users",requestOptions)
+      fetch("http://localhost:8080/api/volunteers",requestOptions)
       
             .then(response => response.json())
             .then(data => {

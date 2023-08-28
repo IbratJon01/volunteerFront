@@ -20,6 +20,8 @@ const VolunteerList = () => {
     loadVolunteers();
   };
 
+  console.log(volunteers);
+
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
     {volunteers.map((volunteer) => (
