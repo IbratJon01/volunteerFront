@@ -55,6 +55,8 @@ class SignUp extends Component {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        console.log(errorCode||errorMessage);
+        this.setState({ loading: false, error: errorMessage }); // Yuklanish xatolandi
         // ..
       });
         

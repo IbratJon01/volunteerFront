@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './LoginPage.css'
 import { Button, Grid } from '@mui/material';
-import inst_image from '../../images/9364675fb26a.svg';
+import inst_image from '../../images/1846d0d558fac7cbe21144351f7877ef.png';
 import insta_logo from '../../images/logoinsta.png';
 import fb from '../../images/fb.png'
 import google from '../../images/icons8-google-96.svg'
@@ -17,7 +17,11 @@ class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.state= {
-            isLogin:true
+            isLogin:true,
+            emailId : null,
+            name: null,
+            userName: null,
+            password: null,
         }
     }
 
@@ -27,6 +31,34 @@ class LoginPage extends Component {
           
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
+
+            let payload = {
+                "volunteerId": user.uid,
+                "firstName": user.displayName,
+                "lastName": '',
+                "email":user.email,
+                "photoPath":user.photoURL
+
+            }
+            const requestOptions ={
+              method: "POST",
+              headers: { 'Content-Type': 'application/json' },
+              body : JSON.stringify(payload),
+          }
+            fetch("http://localhost:8080/api/volunteers",requestOptions)
+            
+                  .then(response => response.json())
+                  .then(data => {
+                      localStorage.setItem("users",JSON.stringify(user));
+                      window.location.reload();
+                  })
+                  .catch(error =>{
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(errorCode || errorMessage);
+                    this.setState({ loading: false, error: errorMessage }); // Yuklanish xatolandi
+      
+                  })
             localStorage.setItem("users",JSON.stringify(user));
             window.location.reload();
             console.log("Kirish muvaffaqiyatli amalga oshirildi", result.user);
@@ -35,7 +67,7 @@ class LoginPage extends Component {
         }
     }
 
-//45 daqiqa
+
     changeLogin=()=>{
 
   
@@ -49,13 +81,16 @@ class LoginPage extends Component {
         return (
              <div>
                <Grid container>
-                <Grid item xs={3}></Grid>
+                <Grid item xs={3}  ></Grid>
                 <Grid item xs={6}>
                     <div className="loginpage__main">
-                        <div>
-                               <img src={inst_image} width="454px" />
-                        </div>
-                        <div>
+                        <Grid container>
+                             <Grid  sx={{  display: { xs: "none", sm: "block"}}} item md={5}>
+                                <div className='login_desgin'><img src={inst_image} className='loginImage'  /></div>
+                                </Grid>
+                             <Grid  sx={{  display: { xs: "none", sm: "block"}}} item md={2}></Grid>
+                             <Grid item xs={12} md={5}>     
+                             <div>
                                <div className="loginpage_rightcomponent">
                                    <img className="loginpage__logo" src={insta_logo} />
                                    <div className="loginPage__signin">
@@ -94,20 +129,15 @@ class LoginPage extends Component {
                                    
                                 </div>
 
-                                <div className="loginPage__downloadSection">
-                                    <div>
-                                    Get the app.
-                                    </div>
-                                    <div className="loginPage__option">
-                                        <img className="loginPage_dwimg" src={appstore} width="136px" />
-                                        <img className="loginPage_dwimg" src={playstore} width="136px" />
-                                    </div>
-                                </div>
+                           
 
-                        </div>
+                        </div></Grid>
+                        </Grid>
+                
+                   
                        </div>            
                 </Grid>
-                <Grid item xs={3}></Grid>
+                <Grid item xs={3} ></Grid>
                </Grid>
            </div>  );
     }

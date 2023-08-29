@@ -1,5 +1,5 @@
 body {
-    background-color: #FAFAFA;
+    background-color:#F4F9FF;;
 }
 .loginpage__main {
     display: flex;
@@ -94,4 +94,23 @@ body {
 }
 .loginPage_dwimg {
     margin: 5px;
+}
+
+.login_desgin{
+    width: 370px;
+    height: 450px ;
+    padding-bottom: 25px;
+    border: 1px solid #DBDBDB;
+    margin-top: 25px;
+    text-align: center;
+    background-color: white;
+
+}
+.login_desgin .loginImage{
+    margin-top: 30px;
+    width: 366px;
+    height: 370px;
+    flex-shrink: 0;
+   /* background: url('../../images/1846d0d558fac7cbe21144351f7877ef.png'), lightgray 50% / cover no-repeat; */
+   mix-blend-mode: multiply;
 }
