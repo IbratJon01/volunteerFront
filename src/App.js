@@ -5,6 +5,8 @@ import Card from './companents/Card/App';
 import Home from './companents/Home/AppBar'
 import Search from './companents/search/App'
 import LoginPage from './companents/LoginPage/LoginPage';
+import AccountEdit from './companents/Account/AccountEdit'
+import ProfileUsers from './companents/Account/ProfileUsers'
 
 
 function App() {
@@ -29,7 +31,8 @@ function App() {
           <Route path="/volunteer" element={<Volunteer/>}/>
           <Route path="/card" element={<Card/>}/>
           {/* <Route path="/" element={<Home/>}/> */}
-          <Route path="/search" element={<Search/>}/>
+          <Route path="/edit" element={<AccountEdit/>}/>
+          <Route path='user_profile' element={<ProfileUsers/>}/>
        </Routes>
      </Router>
     </div>

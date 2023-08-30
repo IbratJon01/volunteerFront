@@ -1,7 +1,9 @@
 import React from 'react';
 import { Card, CardHeader, CardContent, Avatar, Typography } from '@mui/material';
-import imageProfile from '../../images/004.webp'
-import './style.css'
+import imageProfile from '../../images/004.webp';
+import './style.css';
+import Rating from '@mui/material/Rating';
+
 const VolunteerCard = ({ volunteer }) => {
   return (
     <div className='body'>
@@ -28,23 +30,12 @@ const VolunteerCard = ({ volunteer }) => {
                 </a> */}
             </div>
             <div class="buttons">
-                <button class="button">Subscribe</button>
+                <button class="button">About me</button>
                 <button class="button">Message</button>
             </div>
           
             <div class="analytics">
-                <div class="data">
-                    <i class="bx bx-heart"></i>
-                    <span class="number">60k</span>
-                </div>
-                <div class="data">
-                    <i class="bx bx-message-rounder"></i>
-                    <span class="number">20k</span>
-                </div>
-                <div class="data">
-                    <i class="bx bx-share"></i>
-                    <span class="number">12k</span>
-                </div>
+            <Rating name="read-only" value={2} readOnly />
             </div>
        
 
