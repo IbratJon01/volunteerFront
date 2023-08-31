@@ -1,18 +1,29 @@
 import React from 'react';
 import { Container, Grid, Card, CardContent, Typography, Avatar, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import { Room, Chat, CheckCircle, Report, Phone, Email, Language, Cake, Male, Timeline, Person } from '@mui/icons-material';
+import { Room } from '@mui/icons-material';
 import './style.css'; // style.css stilini o'rnating
 import Rating from '@mui/material/Rating';
 import pf from "../../images/004.webp"
+import PhoneIcon from '@mui/icons-material/Phone';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import EmailIcon from '@mui/icons-material/Email';
+import EventIcon from '@mui/icons-material/Event';
+import { useLocation } from 'react-router-dom';
+import Setting from './Setting'
+function Profile(props) {
 
-function Profile() {
+  const location = useLocation();
+  const dataUser = location.state?.volunteer;
+  const authUserID  = props.userId;
+  console.log(dataUser);
+  console.log(authUserID);
   return (
     <Container className="container">
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
           <Card className="card userProfile">
             <CardContent>
-              <Avatar src={pf} alt="profile" className="profilePicture" sx={{ width: 200, height: 200 }} />
+              <Avatar src={dataUser.photoPath} alt="profile" className="profile" sx={{ width: 180, height: 180 }} />
             </CardContent>
           </Card>
           <Card style={{padding:3}} className="work_skills card">   
@@ -20,15 +31,9 @@ function Profile() {
             <div className="work">
                 <h6 className="heading">Work or Student</h6>
                 <div className="primary">
-                    <h6>Spotify New York</h6>
+                    <h6>{dataUser.place}</h6>
                     <span>Primary</span>
-                    <p>170 William Street  New York, NY 10038-212-315-51</p>
-                </div>
-
-                <div className="secondary">
-                    <h6>Metropolitan Museum</h6>
-                    <span>Secondary</span>
-                    <p>S34 E 65th Street New York, NY 10651-78 156-187-60 </p>
+                    <p>{dataUser.workAndStudent}</p>
                 </div>
             </div>
 
@@ -36,6 +41,25 @@ function Profile() {
             <div className="skills">
                 <h6 className="heading">Skills</h6>
                 <ul>
+                 
+                  <li>  
+                    <div className='contact_page'>
+                       <br/>
+                       <span className='page_name'>
+                <PhoneIcon className='icons' /> Language:
+                       </span>
+                       <span>{dataUser.language}</span>
+                     </div>
+                  </li>
+                  <li>  
+                    <div className='contact_page'>
+                       <br/>
+                       <span className='page_name'>
+                <PhoneIcon className='icons' /> Volunteer:
+                       </span>
+                       <span>{dataUser.howHelp}</span>
+                     </div>
+                  </li>
           
                 </ul>
             </div>
@@ -46,16 +70,29 @@ function Profile() {
           <Card className="card userDetails">
             <CardContent>
               <div className="userName">
-                <Typography variant="h5" className="name">Jeremy Rose</Typography>
+                <Typography variant="h5" className="name">{dataUser.firstName} {dataUser.lastName}</Typography>
                 <div className="map">
-                  <Room className="ri" />
-                  <span>New York, NY</span>
+                  <Room className="ri" />  <span>{dataUser.place}</span>
+                   {/* <Grid container spacing={2}>
+                   <Grid item xs={4}> </Grid>
+                   <Grid item xs={4}></Grid>
+           
+              </Grid> */}
+          
+             <Grid  sx={{  display: { xs: "none", sm: "block"}}} item ><div className='bush'></div> </Grid>
+             <div className='settings'>  {props.userId == dataUser.volunteerId ? (<Setting userAuthData={dataUser} />) : ( '')}</div> 
+                 
                 </div>
-                <p>Product Designer</p>
+         
+                <p>{dataUser.chooseTypeVolunteer}</p>
               </div>
                <Rating name="read-only" value={2} readOnly />
         
               <div className="btns">
+              <Grid container spacing={2}>
+        
+                <Grid item xs={6}></Grid>
+              </Grid>
            
               </div>
             </CardContent>
@@ -79,24 +116,34 @@ function Profile() {
            
                 <br/>
                 <span className='page_name'>Contact Information</span>
-            </div>   
-            <div className='contact_page'>
-            <br/>
-        
-                <span className='page_name'>Phone:</span> <span>+998900343846</span>
-            </div> 
-            <div className='contact_page'>
-            <br/>
-                <span className='page_name'>Address:</span> <span>Uzbekstan , Tashkent ,Olmazor city</span>
             </div>
             <div className='contact_page'>
             <br/>
-                <span className='page_name'>E-mail:</span> <span>hello@rsmarquetech.com</span>
-            </div>   
+            <span className='page_name'>
+                <PhoneIcon className='icons' /> Phone:
+            </span>
+               <span>{dataUser.phoneNumber}</span>
+            </div> 
             <div className='contact_page'>
             <br/>
-              <span className='page_name'>Birthday:</span> <span>07-12-2001</span>
-          </div>           
+            <span className='page_name'>
+                <LocationOnIcon className='icons' /> Address:
+            </span>
+                <span> {dataUser.place}</span>
+            </div>
+            <div className='contact_page'>
+            <br/>
+            <span className='page_name'>
+                <EmailIcon className='icons' /> E-mail:
+            </span>
+               <span>{dataUser.email}</span>
+            </div>
+            <div className='contact_page'>
+                <br/>
+                <EventIcon className='icons' /> {/* Tug'ilgan kun ikoni */}
+                <span className='page_name'>Birthday:</span> <span>{dataUser.birthDate}</span>
+            </div>  
+           
 
          
 
@@ -112,3 +159,12 @@ function Profile() {
 }
 
 export default Profile;
+
+
+
+// {userId == userAuthData.userId ? (
+//   <Setting userAuthData={userAuthData} />
+// ) : (
+//   <div className='userNameOther'>@{userData.userName}</div>
+
+// )}

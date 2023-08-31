@@ -2,7 +2,7 @@
  @import url("https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"); */
 
 /* ===== =====>>  Universal Selector  <<===== =====  */
-* {
+/* * {
   padding: 0;
   margin: 0;
   font-size: 9px;
@@ -10,7 +10,7 @@
   list-style: none;
   text-decoration: none;
   font-family: "Poppins", sans-serif;
-}
+} */
 
 /* ===== =====>>  Body Font Size  <<===== =====  */
 .prof {
@@ -172,8 +172,8 @@ header {
 }
 
 .container .userProfile .profile figure img {
-  width: 18rem;
-  height: 18rem;
+  width: 16rem;
+  height: 16rem;
   border-radius: 50%;
 }
 
@@ -312,6 +312,11 @@ header {
   font-weight: 700;
 
 }
+.userDetails .userName .map .settings{
+  float: right;
+  margin-top: -10px;
+  
+}
 
 .userDetails .userName p {
   font-size: 16px;
@@ -418,8 +423,25 @@ header {
   color: black;
   font-size: 16;
   margin-bottom: -25px;
+  
 
 
+}
+.icons {
+  margin-right: 8px; /* Ikon va matn orasidagi masofani belgilaydi */
+  vertical-align: middle; /* Ikonni matnga nisbatan o'rta qiladi */
+  padding: 2;
+  border-radius: 100%;
+  color: #0099cc;
+}
+
+.settings{
+  float: right;
+  margin-left:30px ;
+  /* margin-top: -5px; */
+}
+.bush{
+  padding-left: 300px;
 }
 
 

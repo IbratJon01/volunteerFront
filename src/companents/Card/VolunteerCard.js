@@ -1,13 +1,15 @@
 import React from 'react';
-import { Card, CardHeader, CardContent, Avatar, Typography } from '@mui/material';
+import { Card, CardHeader, CardContent, Avatar, Typography , ListItem,ListItemButton,ListItemText } from '@mui/material';
 import imageProfile from '../../images/004.webp';
 import './style.css';
 import Rating from '@mui/material/Rating';
+// import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const VolunteerCard = ({ volunteer }) => {
   return (
-    <div className='body'>
-        <div class="profile-card" >
+    <div className='body1'>
+        <div class="profile-card_bir" >
             <div class="image">
                 <img src={imageProfile} alt="" class="profile-img"/>
             </div>
@@ -30,8 +32,15 @@ const VolunteerCard = ({ volunteer }) => {
                 </a> */}
             </div>
             <div class="buttons">
-                <button class="button">About me</button>
-                <button class="button">Message</button>
+                
+                {/* <button class="button">Message</button> */}
+                <ListItem style={{margin : 0,padding:0}} disablePadding>
+                <ListItemButton  style={{margin:0, fontSize:"12px", paddingLeft:25,paddingRight:25  ,borderRadius:24 ,color:"#fff", fontWeight:400, paddingTop:"0px",paddingBottom:0 , backgroundColor:"#4070f4"}} component={Link} to="/user_profile" state={{volunteer}}>
+                 <ListItemText primary="Profile" />
+                </ListItemButton>
+                </ListItem>
+         
+               <button class="button">Message</button>
             </div>
           
             <div class="analytics">
@@ -61,3 +70,8 @@ const VolunteerCard = ({ volunteer }) => {
 };
 
 export default VolunteerCard;
+
+
+{/* <ListItem disablePadding>
+
+    </ListItem> */}
