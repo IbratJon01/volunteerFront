@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Grid, Card, CardContent, Typography, Avatar, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { Room } from '@mui/icons-material';
 import './style.css'; // style.css stilini o'rnating
@@ -10,6 +10,8 @@ import EmailIcon from '@mui/icons-material/Email';
 import EventIcon from '@mui/icons-material/Event';
 import { useLocation } from 'react-router-dom';
 import Setting from './Setting'
+import { getVolunteerById, deleteVolunteer } from '../Volunteer/VolunteerService';
+
 function Profile(props) {
 
   const location = useLocation();
@@ -17,13 +19,32 @@ function Profile(props) {
   const authUserID  = props.userId;
   console.log(dataUser);
   console.log(authUserID);
+
+  const [volunteers, setVolunteers] = useState([]);
+
+  // useEffect(() => {
+  //   loadVolunteers();
+  // }, []);
+
+  // const loadVolunteers = async (id) => {
+  //   const response = await getVolunteerById(id);
+  //   setVolunteers(response.data);
+    
+  // };
+  const updateProfileData = (newData) => {
+    // Update the state with the new data
+    setVolunteers(newData);
+  };
+ console.log(volunteers);
+
+
   return (
     <Container className="container">
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
           <Card className="card userProfile">
             <CardContent>
-              <Avatar src={dataUser.photoPath} alt="profile" className="profile" sx={{ width: 180, height: 180 }} />
+              <Avatar src={dataUser.imagePath} alt={dataUser.firstName} className="profile" sx={{ width: 180, height: 180 }} />
             </CardContent>
           </Card>
           <Card style={{padding:3}} className="work_skills card">   
@@ -73,14 +94,10 @@ function Profile(props) {
                 <Typography variant="h5" className="name">{dataUser.firstName} {dataUser.lastName}</Typography>
                 <div className="map">
                   <Room className="ri" />  <span>{dataUser.place}</span>
-                   {/* <Grid container spacing={2}>
-                   <Grid item xs={4}> </Grid>
-                   <Grid item xs={4}></Grid>
-           
-              </Grid> */}
+     
           
              <Grid  sx={{  display: { xs: "none", sm: "block"}}} item ><div className='bush'></div> </Grid>
-             <div className='settings'>  {props.userId == dataUser.volunteerId ? (<Setting userAuthData={dataUser} />) : ( '')}</div> 
+             <div className='settings'>  {props.userId == dataUser.volunteerId ? (<Setting userAuthData={dataUser} onUpdateProfileData={updateProfileData}/>) : ( '')}</div> 
                  
                 </div>
          
@@ -162,9 +179,3 @@ export default Profile;
 
 
 
-// {userId == userAuthData.userId ? (
-//   <Setting userAuthData={userAuthData} />
-// ) : (
-//   <div className='userNameOther'>@{userData.userName}</div>
-
-// )}

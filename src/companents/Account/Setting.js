@@ -13,6 +13,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import EditUser from './Edit'
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
@@ -54,7 +55,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function CustomizedMenus(userAuthData) {
+export default function CustomizedMenus(userAuthData,onUpdateProfileData) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isEditMode, setEditMode] = React.useState(false);
 
@@ -120,7 +121,7 @@ export default function CustomizedMenus(userAuthData) {
       <Dialog open={isEditMode} maxWidth="sx" onClose={handleDialogClose}>
         <DialogTitle>Edit Post</DialogTitle>
         <DialogContent>
-        {/* <EditUser userAuthData={userAuthData} /> */}
+        <EditUser userAuthData={userAuthData} onUpdateProfileData={onUpdateProfileData} />
         
 
         </DialogContent>

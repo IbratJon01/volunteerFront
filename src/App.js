@@ -22,7 +22,8 @@ function App() {
   };
   
   const usersData = getUsersDataFromLocalStorage();
-  console.log(usersData.uid);
+
+
   return (
     <div >
       
@@ -33,7 +34,9 @@ function App() {
           <Route path="/card" element={<Card/>}/>
           {/* <Route path="/" element={<Home/>}/> */}
           <Route path="/edit" element={<AccountEdit/>}/>
-          <Route path='user_profile' userId={usersData.uid} element={<ProfileUsers/>}/>
+        <Route path="/user_profile" element={usersData && usersData.uid ? <ProfileUsers userId={usersData.uid}/> : <LoginPage />}/>
+
+          {/* <Route path='user_profile' userId={usersData.uid} element={<ProfileUsers/>}/> */}
        </Routes>
      </Router>
     </div>

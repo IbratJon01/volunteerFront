@@ -37,7 +37,7 @@ class LoginPage extends Component {
                 "firstName": user.displayName,
                 "lastName": '',
                 "email":user.email,
-                "photoPath":user.photoURL
+             
 
             }
             const requestOptions ={
@@ -60,7 +60,8 @@ class LoginPage extends Component {
       
                   })
             localStorage.setItem("users",JSON.stringify(user));
-            window.location.reload();
+         
+            window.location.href = '/edit';
             console.log("Kirish muvaffaqiyatli amalga oshirildi", result.user);
         } catch (error) {
             console.error("Kirishda xatolik yuz berdi", error);
