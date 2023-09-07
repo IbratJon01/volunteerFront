@@ -310,10 +310,12 @@ header {
   font-size:18px;
   color: var(--f3-color);
   font-weight: 700;
+  width: 180px;
+  /* padding-right: 100px; */
 
 }
 .userDetails .userName .map .settings{
-  float: right;
+  /* float: right; */
   margin-top: -10px;
   
 }
@@ -441,7 +443,7 @@ header {
   /* margin-top: -5px; */
 }
 .bush{
-  padding-left: 300px;
+  padding-left: 150px;
 }
 
 

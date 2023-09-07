@@ -7,6 +7,7 @@ import Rating from '@mui/material/Rating';
 import { Link } from 'react-router-dom';
 
 const VolunteerCard = ({ volunteer }) => {
+    const id=volunteer.id;
   return (
     <div className='body1'>
         <div class="profile-card_bir" >
@@ -35,7 +36,7 @@ const VolunteerCard = ({ volunteer }) => {
                 
                 {/* <button class="button">Message</button> */}
                 <ListItem style={{margin : 0,padding:0}} disablePadding>
-                <ListItemButton  style={{margin:0, fontSize:"12px", paddingLeft:25,paddingRight:25  ,borderRadius:24 ,color:"#fff", fontWeight:400, paddingTop:"0px",paddingBottom:0 , backgroundColor:"#4070f4"}} component={Link} to="/user_profile" state={{volunteer}}>
+                <ListItemButton  style={{margin:0, fontSize:"12px", paddingLeft:25,paddingRight:25  ,borderRadius:24 ,color:"#fff", fontWeight:400, paddingTop:"0px",paddingBottom:0 , backgroundColor:"#4070f4"}} component={Link} to="/user_profile" state={{id}}>
                  <ListItemText primary="Profile" />
                 </ListItemButton>
                 </ListItem>
@@ -54,24 +55,9 @@ const VolunteerCard = ({ volunteer }) => {
 
 
 
-    // <Card style={{ width: '300px', height: '300px', margin:"5px",marginRight:"15px" }}>
-    //   <CardHeader
-    //     avatar={<div style={{fontSize:"55px"}}><Avatar >{'A'}</Avatar></div>}
-    //     title={<div><span style={{marginRight:"2px"}}>{volunteer.firstName}</span><span>{volunteer.lastName}</span></div>}
-    //     subheader={volunteer.email}
-    //   />
-    //   <CardContent>
-    //     <Typography variant="body2" color="textSecondary" component="p">
-    //       {volunteer.aboutMe}
-    //     </Typography>
-    //   </CardContent>
-    // </Card>
+
   );
 };
 
 export default VolunteerCard;
 
-
-{/* <ListItem disablePadding>
-
-    </ListItem> */}

@@ -61,7 +61,7 @@ class LoginPage extends Component {
                   })
             localStorage.setItem("users",JSON.stringify(user));
          
-            window.location.href = '/edit';
+            window.location.href = '/';
             console.log("Kirish muvaffaqiyatli amalga oshirildi", result.user);
         } catch (error) {
             console.error("Kirishda xatolik yuz berdi", error);

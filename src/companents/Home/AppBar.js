@@ -19,6 +19,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Card from '../Card/App'
+import CardList from '../demo/VolunteerList'
 import Admin from '../Volunteer/App'
 import Search from '../search/App'
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -105,7 +106,7 @@ export default function PersistentDrawerLeft() {
 
   const items = [
     { text: 'Admin', icon: <AdminPanelSettingsRoundedIcon />, component: <Admin/> },
-    { text: 'Members', icon: <Group />, component: <Card/> }
+    { text: 'Members', icon: <Group />, component: <CardList/> }
   ];
   const [selectedComponent, setSelectedComponent] = useState(null);
 

@@ -11,40 +11,42 @@ import EventIcon from '@mui/icons-material/Event';
 import { useLocation } from 'react-router-dom';
 import Setting from './Setting'
 import { getVolunteerById, deleteVolunteer } from '../Volunteer/VolunteerService';
-
+import CircularProgress from '@mui/material/CircularProgress';
 function Profile(props) {
 
   const location = useLocation();
-  const dataUser = location.state?.volunteer;
-  const authUserID  = props.userId;
-  console.log(dataUser);
-  console.log(authUserID);
+  const id = location.state?.id;
+  console.log(id);
 
-  const [volunteers, setVolunteers] = useState([]);
+  const [userId, setId] = useState(id);
+  const [volunteers, setVolunteer] = useState(null);
+  useEffect(() => {
+    if (id) {
+      // Only fetch data if 'id' is available
+      getVolunteerById(id)
+        .then((response) => {
+          setVolunteer(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching volunteer data:', error);
+        });
+    }
+  }, [id]);
 
-  // useEffect(() => {
-  //   loadVolunteers();
-  // }, []);
+   console.log(volunteers);
 
-  // const loadVolunteers = async (id) => {
-  //   const response = await getVolunteerById(id);
-  //   setVolunteers(response.data);
-    
-  // };
-  const updateProfileData = (newData) => {
-    // Update the state with the new data
-    setVolunteers(newData);
-  };
- console.log(volunteers);
-
-
+   if (volunteers === null) {
+    return   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+    <CircularProgress />
+  </div>;
+  }
   return (
     <Container className="container">
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
           <Card className="card userProfile">
             <CardContent>
-              <Avatar src={dataUser.imagePath} alt={dataUser.firstName} className="profile" sx={{ width: 180, height: 180 }} />
+              <Avatar src={volunteers.imagePath} alt={volunteers.firstName} className="profile" sx={{ width: 180, height: 180 }} />
             </CardContent>
           </Card>
           <Card style={{padding:3}} className="work_skills card">   
@@ -52,9 +54,9 @@ function Profile(props) {
             <div className="work">
                 <h6 className="heading">Work or Student</h6>
                 <div className="primary">
-                    <h6>{dataUser.place}</h6>
+                    <h6>{volunteers.place}</h6>
                     <span>Primary</span>
-                    <p>{dataUser.workAndStudent}</p>
+                    <p>{volunteers.workAndStudent}</p>
                 </div>
             </div>
 
@@ -69,7 +71,7 @@ function Profile(props) {
                        <span className='page_name'>
                 <PhoneIcon className='icons' /> Language:
                        </span>
-                       <span>{dataUser.language}</span>
+                       <span>{volunteers.language}</span>
                      </div>
                   </li>
                   <li>  
@@ -78,7 +80,7 @@ function Profile(props) {
                        <span className='page_name'>
                 <PhoneIcon className='icons' /> Volunteer:
                        </span>
-                       <span>{dataUser.howHelp}</span>
+                       <span>{volunteers.howHelp}</span>
                      </div>
                   </li>
           
@@ -91,17 +93,16 @@ function Profile(props) {
           <Card className="card userDetails">
             <CardContent>
               <div className="userName">
-                <Typography variant="h5" className="name">{dataUser.firstName} {dataUser.lastName}</Typography>
+                <Typography variant="h5" className="name">{volunteers.firstName} {volunteers.lastName}</Typography>
                 <div className="map">
-                  <Room className="ri" />  <span>{dataUser.place}</span>
-     
+                  <Room className="ri" />  <span>{volunteers.place}</span>   
           
              <Grid  sx={{  display: { xs: "none", sm: "block"}}} item ><div className='bush'></div> </Grid>
-             <div className='settings'>  {props.userId == dataUser.volunteerId ? (<Setting userAuthData={dataUser} onUpdateProfileData={updateProfileData}/>) : ( '')}</div> 
+             <div className='settings'>  {props.userId == volunteers.volunteerId ? (<Setting userAuthData={volunteers}  />) : ( '')}</div> 
                  
                 </div>
          
-                <p>{dataUser.chooseTypeVolunteer}</p>
+                <p>{volunteers.chooseTypeVolunteer}</p>
               </div>
                <Rating name="read-only" value={2} readOnly />
         
@@ -139,26 +140,26 @@ function Profile(props) {
             <span className='page_name'>
                 <PhoneIcon className='icons' /> Phone:
             </span>
-               <span>{dataUser.phoneNumber}</span>
+               <span>{volunteers.phoneNumber}</span>
             </div> 
             <div className='contact_page'>
             <br/>
             <span className='page_name'>
                 <LocationOnIcon className='icons' /> Address:
             </span>
-                <span> {dataUser.place}</span>
+                <span> {volunteers.place}</span>
             </div>
             <div className='contact_page'>
             <br/>
             <span className='page_name'>
                 <EmailIcon className='icons' /> E-mail:
             </span>
-               <span>{dataUser.email}</span>
+               <span>{volunteers.email}</span>
             </div>
             <div className='contact_page'>
                 <br/>
                 <EventIcon className='icons' /> {/* Tug'ilgan kun ikoni */}
-                <span className='page_name'>Birthday:</span> <span>{dataUser.birthDate}</span>
+                <span className='page_name'>Birthday:</span> <span>{volunteers.birthDate}</span>
             </div>  
            
 
@@ -172,7 +173,9 @@ function Profile(props) {
       </Grid>
     
     </Container>
-  );
+
+ 
+    );
 }
 
 export default Profile;

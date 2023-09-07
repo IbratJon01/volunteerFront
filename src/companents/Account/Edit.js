@@ -16,6 +16,13 @@ import imageProfile from '../../images/004.webp';
 import Autocomplete from '@mui/material/Autocomplete';
 import './styleEdit.css'
 import { getVolunteerById, updateVolunteer } from '../Volunteer/VolunteerService';
+import { useParams, useNavigate } from 'react-router-dom';
+import CustomizedMenus from './Setting'
+import CircularProgress from '@mui/material/CircularProgress';
+import { purple } from '@mui/material/colors';
+
+const accent = purple['ffff'];
+
 const top100Films = [
   { label: '⦁	Eko volontyor' },
   { label: '⦁ Agro volontyor' },
@@ -35,7 +42,7 @@ const howHelp = [
 {label:'⦁	Boshqa'}
 
 ]
-class MainPage extends Component {
+class EditUser extends Component {
     constructor(props) {
         super(props);
         this.state = { 
@@ -57,26 +64,13 @@ class MainPage extends Component {
             uploadedImage: null,
             inputValue: '',
             countries: [],
-             editedUser: { ...props.userAuthData.userAuthData },
          }
     }
+   
 
-    handleInputChange = (e) => {
-      const { name, value } = e.target;
-      this.setState((prevState) => ({
-        editedUser: { ...prevState.editedUser, [name]: value },
-      }));
-    };
+
   
-    handleUpdateClick = () => {
-      const { editedUser } = this.state;
-      // Malumotlarni yangilash (backendga so'rov jo'natish kerak)
-      console.log('Updated user:', editedUser);
-  
-      // Yangilangan malumotlarni o'zgartirish
-      this.props.onUpdate(editedUser);
-    };
- 
+
    handleUpdate = async (id) => {
       await updateVolunteer(id);
     
@@ -160,6 +154,8 @@ class MainPage extends Component {
       const db = getFirestore();
       const postsRef = collection(db, "posts");
       const now = new Date();
+      const id = this.props.userAuthData.id
+
       console.log(imagePath);
       const payload = { 
         firstName: firstName,
@@ -174,7 +170,7 @@ class MainPage extends Component {
         workAndStudent:workAndStudent,
       };
       // Hujjatni yangilash uchun PUT HTTP so'rovi uchun URL
-      const updateUrl = `http://localhost:8080/api/volunteers/${this.props.userAuthData.userAuthData.id}`;
+      const updateUrl = `http://localhost:8080/api/volunteers/${this.props.userAuthData.id}`;
   
       const requestOptions = {
         method: "PUT", // PUT HTTP so'rovini ishlatish
@@ -185,7 +181,9 @@ class MainPage extends Component {
       const response = await fetch(updateUrl, requestOptions);
       if (response.ok) {
         const responseData = await response.text(); // Read the response as text
-        console.log("Response Data:", responseData); // Log the response data
+        console.log({responseData}); // Log the response data
+      
+       
  
         // ...
       } else {
@@ -193,32 +191,45 @@ class MainPage extends Component {
         console.log( (console.error("Server returned an error:", response.status))||(response.status));
         // Handle the error case appropriately
       }
+      
   
       // Kiritish maydonlarini va progress barlarni tozalash
-      event.target.reset();
+         event.target.reset();
       this.setState({ imageProgressBar: 0, otherProgressBar: 0 });
-    } catch (error) {
+      await updateVolunteer(this.props.userAuthData.id, payload);
+
+      // Redirect to the profile page after successful submission 
+      window.location.reload();
+      this.props.handleSaveChanges();
+      // const navigate = useNavigate();
+      // navigate(`/volunteer/${this.props.userAuthData.id}`);
+     
+
+
+    } 
+    catch (error) {
       console.error("Xato yuz berdi: Fayllar yuklanishida xato:", error);
     }
+  
+
+    
   };
       
-    
-      handleInputChange = (event, newValue) => {
-        this.setState({
-          inputValue: newValue
-        });
-      };
+
+
     
     render() { 
       const { inputValue, countries } = this.state;
-        console.log(this.props.userAuthData);
+    
+      console.log(this.props.userAuthData);
+        // console.log(id);
         return (
           <div className='edit_pages'>
           <form onSubmit={this.handleSubmit}>
           <Container className='container_edit' maxWidth="sm">
             <Avatar
          alt="User Photo"
-         src={this.props.userAuthData.userAuthData.imagePath}
+         src={this.props.userAuthData.imagePath}
          sx={{ width: 170, height: 170, marginTop:3 }}
        ><label htmlFor="image-upload">
        <IconButton
@@ -248,7 +259,7 @@ class MainPage extends Component {
        
          label="Full name"
          type="text" name="firstName" 
-         defaultValue={this.props.userAuthData.userAuthData.firstName}
+         defaultValue={this.props.userAuthData.firstName}
          fullWidth
          margin="normal"
        />
@@ -258,7 +269,7 @@ class MainPage extends Component {
                   name="birthDate"
                   label="Birth date"
                   type='text'
-                  defaultValue={this.props.userAuthData.userAuthData.birthDate}
+                  defaultValue={this.props.userAuthData.birthDate}
                   fullWidth
                   margin="normal" />
      
@@ -271,7 +282,7 @@ class MainPage extends Component {
               name="phoneNumber"
               type='texy'
               label="Phone number"
-              defaultValue={this.props.userAuthData.userAuthData.phoneNumber}
+              defaultValue={this.props.userAuthData.phoneNumber}
               fullWidth
               margin="normal"
             />
@@ -281,7 +292,7 @@ class MainPage extends Component {
                    name="workAndStudent"
                    type='text'
                    label="Student or Worker"
-                   defaultValue={this.props.userAuthData.userAuthData.workAndStudent}
+                   defaultValue={this.props.userAuthData.workAndStudent}
                    fullWidth
                    margin="normal"
                  />
@@ -294,7 +305,7 @@ class MainPage extends Component {
               <TextField
                 name="email"
                 label="Email"
-                defaultValue={this.props.userAuthData.userAuthData.email}
+                defaultValue={this.props.userAuthData.email}
                 fullWidth
                 margin="normal"
               />
@@ -304,7 +315,7 @@ class MainPage extends Component {
                 name="city"
                 type='text'
                 label="Country,City"
-                defaultValue={this.props.userAuthData.userAuthData.place}
+                defaultValue={this.props.userAuthData.place}
                 fullWidth
                 margin="normal"
               />
@@ -313,7 +324,7 @@ class MainPage extends Component {
             <TextField
               name="text"
               label='Bio'
-              defaultValue={this.props.userAuthData.userAuthData.aboutMe}
+              defaultValue={this.props.userAuthData.aboutMe}
               fullWidth
               margin="normal"
             />
@@ -322,7 +333,7 @@ class MainPage extends Component {
             id="combo-box-demo"
             options={top100Films}
             maxWidth="sm"
-            defaultValue={this.props.userAuthData.userAuthData.chooseTypeVolunteer}
+            defaultValue={this.props.userAuthData.chooseTypeVolunteer}
             renderInput={(params) => <TextField type='text'  name="chooseTypeVolunteer"  {...params} label="Qaysi yo’nalishlarda volontyor bo’lmoqchisiz?"
             style={{marginBottom:15,marginTop:15}} />}
           />
@@ -332,7 +343,7 @@ class MainPage extends Component {
             options={howHelp}
             maxWidth="sm"
             type='text'
-            defaultValue={this.props.userAuthData.userAuthData.howHelp}
+            defaultValue={this.props.userAuthData.howHelp}
             renderInput={(params) => <TextField   name="howHelp" {...params} label="Qanday yordam ko'rsatmoqchisiz?" />}
           />
             
@@ -346,14 +357,20 @@ class MainPage extends Component {
             />
     
        {/* Add more fields here for other user attributes */}
-       <progress value={this.state.imageProgressBar} max="100" />
-     
+       {/* <progress value={this.state.imageProgressBar} max="100" />
+       */}
+
            </Container>  
            <div className="uploadButton">
-        <Button type="submit" variant="contained" endIcon={<DownloadForOfflineIcon />}>Upload</Button>
+        <Button  variant="outlined" style={{marginLeft:400 , marginTop:20}} type="submit"  endIcon={ <CircularProgress color="primary" size={24} variant="determinate" value={this.state.imageProgressBar}/>} >
+       Uplode
+       {/* {(this.state.imageProgressBar==0)? <CircularProgress size={24} /> : 'Log In'} */}
+        </Button>
+     
       </div>
           </form>
          </div> 
+      // <div>namew</div>
   
 
 
@@ -363,4 +380,4 @@ class MainPage extends Component {
     }
 }
  
-export default MainPage;
+export default EditUser;

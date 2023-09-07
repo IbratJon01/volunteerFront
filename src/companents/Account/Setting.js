@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -14,6 +13,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import EditUser from './Edit'
+import React, { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { getVolunteerById } from '../Volunteer/VolunteerService';
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
@@ -55,10 +57,18 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function CustomizedMenus(userAuthData,onUpdateProfileData) {
+export default function CustomizedMenus({userAuthData,handleSubmit}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isEditMode, setEditMode] = React.useState(false);
+  const [volunteer, setVolunteer] = useState({});
+const {id} = useParams()
 
+useEffect(() => {
+  getVolunteerById(id).then((response) => {
+    setVolunteer(response.data);
+  });
+}, [id]);
+  console.log(id);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -72,6 +82,12 @@ export default function CustomizedMenus(userAuthData,onUpdateProfileData) {
   };
   const handleDialogClose = () => {
     setEditMode(false);
+  };
+  const handleSaveChanges = async () => {
+    setEditMode(false);
+  
+    // Call the handleUserDataUpdate function passed from MainPage
+    // Note: You can implement this function as needed
   };
   return (
     <div>
@@ -97,7 +113,7 @@ export default function CustomizedMenus(userAuthData,onUpdateProfileData) {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose && handleEdit} disableRipple>
+        <MenuItem  onClick={handleClose && handleEdit} disableRipple>
           <EditIcon />
           Edit
        
@@ -121,13 +137,13 @@ export default function CustomizedMenus(userAuthData,onUpdateProfileData) {
       <Dialog open={isEditMode} maxWidth="sx" onClose={handleDialogClose}>
         <DialogTitle>Edit Post</DialogTitle>
         <DialogContent>
-        <EditUser userAuthData={userAuthData} onUpdateProfileData={onUpdateProfileData} />
+        <EditUser userAuthData={volunteer} handleSaveChanges={handleSaveChanges}/>
         
 
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose}>Cancel</Button>
-          <Button onClick={handleDialogClose} color="primary">
+          <Button onClick={handleDialogClose} component={Link} to={`/volunteer/${id}`} >Cancel</Button>
+          <Button onClick={handleSaveChanges}  color="primary">
             Save Changes
           </Button>
         </DialogActions>

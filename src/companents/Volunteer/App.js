@@ -10,7 +10,7 @@ function App() {
       <Typography variant="h4" align="center" gutterBottom>
         Volunteer Management
       </Typography>
-      <VolunteerForm />
+  
       <VolunteerList />
     </Container>
   );
