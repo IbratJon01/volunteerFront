@@ -60,7 +60,11 @@ const VolunteerList = () => {
             </div>
           
             <div class="analytics">
-            <Rating name="read-only" value={volunteers.cost} readOnly />
+            <Rating
+                  name={`score-${volunteer.id}`}
+                  value={volunteer.score}
+                  readOnly
+                />
             </div>
        
 

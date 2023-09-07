@@ -19,6 +19,8 @@ const VolunteerProfile = (props) => {
       setVolunteer(response.data);
     });
   }, [id]);
+  const score = volunteer.score
+  console.log(score);
 
   return (
 
@@ -87,7 +89,7 @@ const VolunteerProfile = (props) => {
        
               <p>{volunteer.chooseTypeVolunteer}</p>
             </div>
-             <Rating name="read-only" value={2} readOnly />
+             <Rating name="read-only" value={volunteer?.score || 0} readOnly />
       
             <div className="btns">
             <Grid container spacing={2}>
