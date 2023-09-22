@@ -15,7 +15,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-const VolunteerList = () => {
+const VolunteerList = ({users}) => {
   const [volunteers, setVolunteers] = useState([]);
   const [editingVolunteer, setEditingVolunteer] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
@@ -85,7 +85,7 @@ const VolunteerList = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {volunteers.map((volunteer) => (
+          {(users.length > 0 ? users : volunteers).map((volunteer) => (
             <StyledTableRow key={volunteer.id}>
               <StyledTableCell>{volunteer.id}</StyledTableCell>
               <StyledTableCell>{volunteer.firstName}</StyledTableCell>

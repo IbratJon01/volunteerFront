@@ -8,7 +8,7 @@ import "./status.css"
 
 
 const UserList = ({ users }) => {
-
+console.log(users);
   return (
     <List>
       {users.map((user) => (

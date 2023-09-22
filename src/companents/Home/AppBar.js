@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -18,10 +18,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import Card from '../Card/App'
-import CardList from '../demo/VolunteerList'
-import Admin from '../Volunteer/App'
-import Search from '../search/App'
+import Card from '../Card/App';
+import CardList from '../demo/VolunteerList';
+import Admin from '../Volunteer/App';
+import Search from '../search/App';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded';
 import {
@@ -33,10 +33,15 @@ import {
   Person,
   Settings,
   Storefront,
-
 } from "@mui/icons-material";
 import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material';
+import UserSearchForm from '../search/UserSearchForm';
+import UserList from '../search/UserList';
+import axios from 'axios';
+import {
+  getAllVolunteers
+} from '../Volunteer/VolunteerService';
 
 const drawerWidth = 240;
 
@@ -80,7 +85,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
 }));
@@ -88,6 +92,10 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [users, setUsers] = useState([]);
+  const [selectedComponent, setSelectedComponent] = useState(null);
+  const [query , setQuery] = useState("");
+  const [data , setData] = useState([]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -98,27 +106,85 @@ export default function PersistentDrawerLeft() {
   };
 
   const handleLogout = () => {
-    // LocalStorage yordamida tizimdan chiqish amalini bajarish
-    localStorage.clear(); // yoki kerakli ma'lumotni o'chirish
-    // Endi foydalanuvchini tizim kirish sahifasiga yo'naltirish mumkin
-    window.location.href = '/'; // login sahifasiga yo'naltirish
+    localStorage.clear();
+    window.location.href = '/';
   };
 
-  const items = [
-    { text: 'Admin', icon: <AdminPanelSettingsRoundedIcon />, component: <Admin/> },
-    { text: 'Members', icon: <Group />, component: <CardList/> }
-  ];
-  const [selectedComponent, setSelectedComponent] = useState(null);
+  
+  const searchUsers = async (userName) => {
+    
+    try {
+      if (userName.length === 0 ) {
+        // Agar userName bo'sh bo'lsa, bo'sh ro'yxatni ko'rsatish uchun users ni tozalab tashlash
+        const response = await getAllVolunteers();
+        setUsers(response.data);
+
+        setSelectedComponent(null); // Selected componentni tozalab tashlash
+        return;
+      }
+
+      const response = await fetch(`http://localhost:8080/api/volunteers/search?userName=${userName}`);
+      if (response.ok) {
+        const data = await response.json();
+        setUsers(data);
+   
+      
+        if (selectedComponent === null) {
+          setUsers(data);
+        }
+        else if (selectedComponent.type === CardList) {
+          setUsers(data);
+          setSelectedComponent(<CardList users={data} />);
+        } else if (selectedComponent.type === Admin) {
+          setUsers(data);
+          setSelectedComponent(<Admin users={data} />);
+        }
+      } else {
+        console.error('Something went wrong while fetching users.');
+      }
+    } catch (error) {
+      console.error('Error occurred during API call:', error);
+    }
+
+ 
+  };
+  // if (userName.length === 0 || userName.length > 2) {
+  //   searchUsers('');
+  // }
+
 
   const handleItemClick = (component) => {
+   // setSelectedComponent();
     setSelectedComponent(component);
+  
   };
+
+  const clearUsers = () => {
+    setUsers([]);
+    if (selectedComponent === null) {
+      setUsers(users);
+    }
+
+    else if (selectedComponent === null || selectedComponent.type === CardList) {
+      setSelectedComponent(<CardList users={[]} />)
+    } else if (selectedComponent.type === Admin) {
+      setSelectedComponent(<Admin users={[]} />)
+    }
+  };
+
+
+  console.log(users);
+
+  const items = [
+    { text: 'Admin', icon: <AdminPanelSettingsRoundedIcon />, component: <Admin users={users}/> },
+    { text: 'Members', icon: <Group />, component: <CardList users={users} /> }
+  ];
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar style={{height:"80px"}}>
+        <Toolbar style={{ height: "80px" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -128,17 +194,14 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-        
           <Grid container>
             <Grid item xs={2}><Typography marginTop={1} variant="h6" noWrap component="div">
-            Persistent drawer
-          </Typography></Grid>
-            <Grid item xs={10}>   <div style={{marginTop: "2px",right: "10px",float: "right"}}>   <Search/></div></Grid>
- 
-         </Grid>
-      
-       
-         
+              Persistent drawer
+            </Typography></Grid>
+            <Grid item xs={10}><div style={{ marginTop: "2px", right: "10px", float: "right" }}>
+              <UserSearchForm onSearch={searchUsers} onClear={clearUsers}/>
+            </div></Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -157,40 +220,35 @@ export default function PersistentDrawerLeft() {
         <DrawerHeader>
           <>aa</>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ?<> <ChevronLeftIcon /> </> : <ChevronRightIcon />}
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
-     
         <List>
-        {items.map((item, index) => (
-          <ListItem disablePadding key={index}>
-            <ListItemButton
-              selected={selectedComponent === item.component}
-              onClick={() => handleItemClick(item.component)}
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-
+          {items.map((item, index) => (
+            <ListItem disablePadding key={index}>
+              <ListItemButton
+                selected={selectedComponent === item.component}
+                onClick={() => handleItemClick(item.component)}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
           <ListItem disablePadding >
             <ListItemButton
-            
               onClick={handleLogout}
             >
               <ListItemIcon><LogoutIcon /></ListItemIcon>
               <ListItemText>Logout</ListItemText>
             </ListItemButton>
           </ListItem>
-      </List>
+        </List>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-    
         {selectedComponent}
       
-   
       </Main>
     </Box>
   );

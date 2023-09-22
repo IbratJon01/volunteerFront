@@ -32,6 +32,9 @@ import AccountEdit from './companents/Account/Edit'
 import ProfileUsers from './companents/Account/ProfileUsers'
 import VList from "./companents/demo/VolunteerList"
 import { Switch } from 'react-router-dom';
+import HomePage from './companents/page/Home'
+import AdminPage from './companents/page/Admin'
+import MembersPage from './companents/page/Members'
 
 
 function App() {
@@ -63,10 +66,15 @@ function App() {
         {/* <Route path="/" element={<VList/>}/> */}
           {/* <Route path='user_profile' userId={usersData.uid} element={<ProfileUsers/>}/> */}
 
-          <Route path="/v" element={<VolunteerList />} />
+        <Route path="/v" element={<VolunteerList />} />
         <Route path="/volunteer/:id"  element={usersData && usersData.uid ? <VolunteerProfile userId={usersData.uid}/> : <LoginPage />} />
         <Route path="/volunteer/:id/edit" element={<AccountEdit />} />
         {/* Boshqa yo'nalishlar uchun ro'talar */}
+
+
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/members" element={<MembersPage />} />
+        <Route path="/home" element={<HomePage />} />
 
        </Routes>
      </Router>

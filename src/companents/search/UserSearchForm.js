@@ -1,5 +1,5 @@
 // UserSearchForm.js
-
+import CloseIcon from '@mui/icons-material/Close';
 import React, { useState } from 'react';
 import debounce from 'lodash.debounce';
 import Paper from '@mui/material/Paper';
@@ -11,7 +11,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import PersonIcon from '@mui/icons-material/Person';
 
-const UserSearchForm = ({ onSearch }) => {
+const UserSearchForm = ({ onSearch , onClear}) => {
   const [username, setUsername] = useState('');
 
   const handleSearch = debounce(() => {
@@ -22,6 +22,12 @@ const UserSearchForm = ({ onSearch }) => {
     setUsername(e.target.value);
     handleSearch();
   };
+
+  const handleClear = () => {
+    setUsername('');
+    onClear(); // Bo'sh qidiruv so'rovi yuborish
+  };
+
 
   return (
     <div>
@@ -41,9 +47,8 @@ const UserSearchForm = ({ onSearch }) => {
         <SearchIcon color="primary"/>
       </IconButton>
       <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-      <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
-
-        <PersonIcon />
+      <IconButton  sx={{ p: '10px' }} aria-label="directions" onClick={handleClear}>
+      {username!=''?<CloseIcon style={{backgroundColor:"#c74e4e" ,color:"#fff",borderRadius:"4px"}}/>:<PersonIcon color="primary"/>}
       </IconButton>
     </Paper>
 

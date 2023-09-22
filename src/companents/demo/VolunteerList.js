@@ -7,7 +7,7 @@ import Rating from '@mui/material/Rating';
 import {List, Card, CardHeader, CardContent, Avatar, Typography , ListItem,ListItemButton,ListItemText } from '@mui/material';
 
 
-const VolunteerList = () => {
+const VolunteerList = ({users}) => {
   const [volunteers, setVolunteers] = useState([]);
 
   useEffect(() => {
@@ -16,11 +16,11 @@ const VolunteerList = () => {
     });
   }, []);
 
-  console.log(volunteers);
+  console.log(users);
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
  
-        {volunteers.map((volunteer) => (
+        {(users.length > 0 ? users : volunteers).map((volunteer) => (
 
 
        
