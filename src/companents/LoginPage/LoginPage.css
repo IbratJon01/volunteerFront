@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+
 body {
     background-color:#F4F9FF;;
 }
@@ -113,4 +116,18 @@ body {
     flex-shrink: 0;
    /* background: url('../../images/1846d0d558fac7cbe21144351f7877ef.png'), lightgray 50% / cover no-repeat; */
    mix-blend-mode: multiply;
+}
+
+
+.logo_name{
+font-family: 'Pacifico', cursive;
+/* font-family: 'Lexend', sans-serif;
+font-family: 'Lobster', cursive;
+font-family: 'Pacifico', cursive;
+font-family: 'Poppins', sans-serif; */
+margin-top: 10px;
+font-size: 35px;
+
+
+
 }

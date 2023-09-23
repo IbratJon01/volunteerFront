@@ -115,10 +115,11 @@ const VolunteerList = ({users}) => {
           ))}
         </TableBody>
       </Table>
-      <Dialog open={openDialog} onClose={handleEditClose}>
+      <Dialog open={openDialog} onClose={handleEditClose} >
         <DialogTitle>Edit Volunteer</DialogTitle>
-        <DialogContent>
+        <DialogContent >
           <TextField
+          style={{marginTop:"20px", marginRight:15}}
             label="First Name"
             value={editingVolunteer?.firstName || ''}
             onChange={(e) =>
@@ -129,6 +130,7 @@ const VolunteerList = ({users}) => {
             }
           />
           <TextField
+           style={{marginTop:"20px"}}
             label="Email"
             value={editingVolunteer?.email || ''}
             onChange={(e) =>

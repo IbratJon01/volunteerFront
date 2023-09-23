@@ -71,11 +71,13 @@ const handleLogout = () => {
   localStorage.clear();
   window.location.href = '/';
 };
-export default function PrimarySearchAppBar(props,{ onSearch}) {
+export default function PrimarySearchAppBar({onSearch,userId}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [username, setUsername] = useState('');
-  const id = props.userId
+  const id = userId
+  console.log(id);
+ 
  
 
 

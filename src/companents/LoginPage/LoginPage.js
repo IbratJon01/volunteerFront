@@ -93,7 +93,8 @@ class LoginPage extends Component {
                              <Grid item xs={12} md={5}>     
                              <div>
                                <div className="loginpage_rightcomponent">
-                                   <img className="loginpage__logo" src={insta_logo} />
+                                <div className='logo_name'>Volunteers</div>
+                                   {/* <img className="loginpage__logo" src={insta_logo} /> */}
                                    <div className="loginPage__signin">
 
                                      {

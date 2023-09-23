@@ -7,7 +7,7 @@ import {
   getAllVolunteers
 } from '../Volunteer/VolunteerService';
 
-export default function Admin() {
+export default function Admin(props) {
 
   const [users, setUsers] = useState([]);
   const searchUsers = async (userName) => {
@@ -35,7 +35,7 @@ export default function Admin() {
   };
   return (
     <> 
-     <Navbar onSearch={searchUsers}/>
+     <Navbar onSearch={searchUsers} userId={props.userId}/>
     <Box sx={{ display: 'flex' }}>
     <Drawer/>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

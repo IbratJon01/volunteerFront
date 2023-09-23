@@ -39,36 +39,29 @@ const VolunteerProfile = (props) => {
               <h6 className="heading">Work or Student</h6>
               <div className="primary">
                   <h6>{volunteer.place}</h6>
-                  <span>Primary</span>
+                 
                   <p>{volunteer.workAndStudent}</p>
               </div>
           </div>
 
    
           <div className="skills">
-              <h6 className="heading">Skills</h6>
-              <ul>
-               
-                <li>  
-                  <div className='contact_page'>
+              <h6 className="heading">Skills</h6>    
+              <div className='contact_page'>
                      <br/>
                      <span className='page_name'>
-              <PhoneIcon className='icons' /> Language:
+             Language:
                      </span>
                      <span>{volunteer.language}</span>
                    </div>
-                </li>
-                <li>  
-                  <div className='contact_page'>
+                   <div className='contact_page'>
                      <br/>
                      <span className='page_name'>
-              <PhoneIcon className='icons' /> Volunteer:
+              Volunteer:
                      </span>
                      <span>{volunteer.howHelp}</span>
                    </div>
-                </li>
-        
-              </ul>
+             
           </div>
         
         </Card>
