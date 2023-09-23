@@ -11,8 +11,7 @@ export default function Admin() {
 
   const [users, setUsers] = useState([]);
   const searchUsers = async (userName) => {
-    console.log(userName.length);
-    console.log(userName);
+   
     try {
       if (userName.length < 2 ) {
         // Agar userName bo'sh bo'lsa, bo'sh ro'yxatni ko'rsatish uchun users ni tozalab tashlash

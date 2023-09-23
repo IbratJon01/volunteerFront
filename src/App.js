@@ -57,11 +57,11 @@ function App() {
       
       <Router>
         <Routes>
-        <Route path="/" element={usersData && usersData.uid ? <Home userId={usersData.uid}/> : <LoginPage />}/>
-          <Route path="/volunteer" element={<Volunteer/>}/>
-          <Route path="/card" element={<Card/>}/>
-          {/* <Route path="/" element={<Home/>}/> */}
-          <Route path="/edit" element={<AccountEdit/>}/>
+        <Route path="/" element={usersData && usersData.uid ? <HomePage userId={usersData.uid}/> : <LoginPage />}/>
+        <Route path="/volunteer" element={<Volunteer/>}/>
+        <Route path="/card" element={<Card/>}/>
+        {/* <Route path="/" element={<Home/>}/> */}
+        <Route path="/edit" element={<AccountEdit/>}/>
         <Route path="/user_profile" element={usersData && usersData.uid ? <ProfileUsers userId={usersData.uid}/> : <LoginPage />}/>
         {/* <Route path="/" element={<VList/>}/> */}
           {/* <Route path='user_profile' userId={usersData.uid} element={<ProfileUsers/>}/> */}
@@ -72,9 +72,9 @@ function App() {
         {/* Boshqa yo'nalishlar uchun ro'talar */}
 
 
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/members" element={<MembersPage />} />
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/admin" element={usersData && usersData.uid ? <AdminPage userId={usersData.uid}/>: <LoginPage />} />
+        <Route path="/members" element={usersData && usersData.uid ? <MembersPage userId={usersData.uid}/> : <LoginPage />} />
+        <Route path="/home" element={<Home />} />
 
        </Routes>
      </Router>

@@ -16,7 +16,10 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import MuiAppBar from '@mui/material/AppBar';
-
+import { useParams,Link } from 'react-router-dom';
+import { List, ListItemButton,ListItemText} from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const AppBar = styled(MuiAppBar, {  })(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
@@ -64,11 +67,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-
-export default function PrimarySearchAppBar({ onSearch}) {
+const handleLogout = () => {
+  localStorage.clear();
+  window.location.href = '/';
+};
+export default function PrimarySearchAppBar(props,{ onSearch}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [username, setUsername] = useState('');
+  const id = props.userId
+ 
+
+
 
   const handleSearch = debounce(() => {
      onSearch(username);
@@ -117,8 +127,17 @@ export default function PrimarySearchAppBar({ onSearch}) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <List>
+        <ListItemButton onClick={handleMenuClose} to={`/volunteer/${id}`}   component={Link} >
+        <AccountCircleIcon style={{marginRight:5,color:"#757575"}}/>
+        <ListItemText primary="Profile" />
+      </ListItemButton>
+      <ListItemButton onClick={handleMenuClose && handleLogout}>
+        <LogoutIcon style={{marginRight:5, color:"#757575"}} />
+        <ListItemText primary="Logout" />
+      </ListItemButton>
+      </List>
+
     </Menu>
   );
 
@@ -169,7 +188,7 @@ export default function PrimarySearchAppBar({ onSearch}) {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p >Profile</p>
       </MenuItem>
     </Menu>
   );

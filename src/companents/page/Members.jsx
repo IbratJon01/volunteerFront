@@ -9,7 +9,9 @@ import {
 
 
 
-export default function Members() {
+export default function Members(props) {
+console.log(props.userId);
+
   const [users, setUsers] = useState([]);
   const searchUsers = async (userName) => {
     try {
@@ -32,7 +34,7 @@ export default function Members() {
 
   return (
     <> 
-     <Navbar onSearch={searchUsers}/>
+     <Navbar onSearch={searchUsers} userId={props.userId}/>
     <Box sx={{ display: 'flex' }}>
     <Drawer/>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

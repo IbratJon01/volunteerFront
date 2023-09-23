@@ -15,12 +15,9 @@ const VolunteerList = () => {
     setVolunteers(response.data);
   };
 
-  const handleDelete = async (id) => {
-    await deleteVolunteer(id);
-    loadVolunteers();
-  };
 
-  console.log(volunteers);
+
+
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>

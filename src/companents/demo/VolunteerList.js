@@ -51,7 +51,7 @@ const VolunteerList = ({users}) => {
                 
                 {/* <button class="button">Message</button> */}
                 <ListItem style={{margin : 0,padding:0}} disablePadding>
-                <ListItemButton to={`/volunteer/${volunteer.id}`}  style={{margin:0, fontSize:"12px", paddingLeft:25,paddingRight:25  ,borderRadius:24 ,color:"#fff", fontWeight:400, paddingTop:"0px",paddingBottom:0 , backgroundColor:"#4070f4"}} component={Link} >
+                <ListItemButton to={`/volunteer/${volunteer.volunteerId}`}  style={{margin:0, fontSize:"12px", paddingLeft:25,paddingRight:25  ,borderRadius:24 ,color:"#fff", fontWeight:400, paddingTop:"0px",paddingBottom:0 , backgroundColor:"#4070f4"}} component={Link} >
                  <ListItemText primary="Profile" />
                 </ListItemButton>
                 </ListItem>

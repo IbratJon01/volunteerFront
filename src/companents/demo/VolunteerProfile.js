@@ -20,7 +20,7 @@ const VolunteerProfile = (props) => {
     });
   }, [id]);
   const score = volunteer.score
-  console.log(score);
+
 
   return (
 
