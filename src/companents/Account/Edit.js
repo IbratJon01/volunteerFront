@@ -24,15 +24,21 @@ import { purple } from '@mui/material/colors';
 const accent = purple['ffff'];
 
 const top100Films = [
-  { label: '⦁	Eko volontyor' },
-  { label: '⦁ Agro volontyor' },
-  { label: '⦁	Inkluziv volontyor' },
-  { label: '⦁	Favqullotda volontyor ' },
-  { label: '⦁ Ta’lim volontyor' },
-  { label: '⦁ Ijtimoiy volontyor' },
-  { label: '⦁	Sport volontyor ' },
-  { label: '⦁	Zoo volontyor ' },
-  { label: '⦁	Boshqa ' },
+  { label: 'Eko volontyor' },
+  { label: 'Agro volontyor' },
+  { label: 'Inkluziv volontyor' },
+  { label: 'Favqullotda volontyor ' },
+  { label: 'Ta’lim volontyor' },
+  { label: 'Ijtimoiy volontyor' },
+  { label: 'Sport volontyor ' },
+  { label: 'Zoo volontyor ' },
+  { label: 'Boshqa ' },
+]
+
+const country = [
+  { label: 'Uzbekiston' },
+  { label: 'Russion ' },
+ 
 ]
 const howHelp = [
 { label: '⦁	Moddiy' },
@@ -58,16 +64,63 @@ class EditUser extends Component {
             city:"",
             phoneNumber:"",
             howHelp:"",
+            country:"",
+            region:"",
+            district:"",
+            neighborhood:"",
             chooseTypeVolunteer:"",
             imageProgressBar: 0,
             uploading: false,
             uploadedImage: null,
             inputValue: '',
             countries: [],
+            adress: [],
+            selectedRegionId: '',
+            selectedDistrictsId: '',
+            selectedQuarterId: '',
+            selectedDistricts: [],
+            selectedQuarters:[]
          }
     }
-   
 
+  
+    componentDidMount() {
+      fetch('https://raw.githubusercontent.com/kenjebaev/regions/master/regions.json')
+        .then(response => response.json())
+        .then(data => {
+          this.setState({ adress: data });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  
+
+    handleRegionChange = (selectedRegionName) => {
+      const selectedRegion = this.state.adress.regions.find(region => region.name === selectedRegionName);
+    
+      if (selectedRegion) {
+        const selectedRegionId = selectedRegion.id;
+        this.setState({ selectedRegionId });
+        
+        // Tanlangan region bo'yicha tenglab chiqariladigan districtlarni topish
+        const selectedDistricts = this.state.adress.districts.filter(district => district.region_id === Number(selectedRegionId));
+        this.setState({ selectedDistricts });
+      }
+    }
+    handleDistrictsChange = (selectedDistrictsName) => {
+      const selectedDistrict = this.state.adress.districts.find(district => district.name === selectedDistrictsName);
+    
+      if (selectedDistrict) {
+        const selectedDistrictsId = selectedDistrict.id;
+        this.setState({ selectedDistrictsId });
+        console.log(selectedDistrictsId);
+        
+        // Tanlangan region bo'yicha tenglab chiqariladigan districtlarni topish
+        const selectedQuarters = this.state.adress.quarters.filter(quarter => quarter.district_id === Number(selectedDistrictsId));
+        this.setState({ selectedQuarters });
+        console.log(selectedQuarters);
+      }
+    }
+    
 
   
 
@@ -142,6 +195,12 @@ class EditUser extends Component {
     const birthDate = event.target.elements.birthDate.value;
     const city = event.target.elements.city.value;
     const workAndStudent = event.target.elements.workAndStudent.value;
+    const country = event.target.elements.country.value;
+    const region = event.target.elements.region.value;
+    const district =event.target.elements.district.value;
+    const neighborhood = event.target.elements.neighborhood.value;
+
+
 
     // Tekshirish: Hujjatlar va matnni to'ldirish
     if (!imageFile || !text.trim()) {
@@ -151,11 +210,8 @@ class EditUser extends Component {
   
     try {
       const imagePath = await this.uploadImage(imageFile);
-      const db = getFirestore();
-      const postsRef = collection(db, "posts");
-      const now = new Date();
-      const id = this.props.userAuthData.id
 
+  
       console.log(imagePath);
       const payload = { 
         firstName: firstName,
@@ -166,8 +222,15 @@ class EditUser extends Component {
         email:email,
         howHelp:howHelp,
         phoneNumber:phoneNumber,
+        address:{
+           country:country,
+           region:region,
+           district:district,
+           neighborhood:neighborhood,
+        },
         place:city,
         workAndStudent:workAndStudent,
+        
       };
       // Hujjatni yangilash uchun PUT HTTP so'rovi uchun URL
       const updateUrl = `http://localhost:8080/api/volunteers/${this.props.userAuthData.id}`;
@@ -182,8 +245,6 @@ class EditUser extends Component {
       if (response.ok) {
         const responseData = await response.text(); // Read the response as text
         console.log({responseData}); // Log the response data
-      
-       
  
         // ...
       } else {
@@ -210,9 +271,6 @@ class EditUser extends Component {
     catch (error) {
       console.error("Xato yuz berdi: Fayllar yuklanishida xato:", error);
     }
-  
-
-    
   };
       
 
@@ -220,8 +278,8 @@ class EditUser extends Component {
     
     render() { 
       const { inputValue, countries } = this.state;
-    
-      console.log(this.props.userAuthData);
+      console.log('adress:', this.state.adress);
+      console.log(this.state.matchingDistricts);
         // console.log(id);
         return (
           <div className='edit_pages'>
@@ -321,6 +379,63 @@ class EditUser extends Component {
               />
               </Grid>
             </Grid>
+            
+            <Grid container>
+
+              <Grid style={{marginRight:5}} item xs={12} md={5.8} >
+                <Autocomplete
+                   disablePortal
+                   id="combo-box-demo"
+                   onChange={(event, value) => this.handleRegionChange(value)}
+                   options={country}
+                   maxWidth="sm"
+                   defaultValue={this.props.userAuthData.address.country}
+                   renderInput={(params) => <TextField type='text'  name="country"  {...params} label="Country?"
+                   style={{marginBottom:15,marginTop:15}} />}
+                 />
+              </Grid>
+              <Grid item xs={12} md={6} >
+                  <Autocomplete
+                       disablePortal
+                       id="combo-box-demo"
+                       onChange={(event, value) => this.handleRegionChange(value)}
+                       options={this.state.adress.regions ? this.state.adress.regions.map(region => region.name) : []}
+                       maxWidth="sm"
+                       defaultValue={this.props.userAuthData.address.region}
+                       renderInput={(params) => <TextField type='text'  name="region"  {...params} label="Regions?"
+                       style={{marginBottom:15,marginTop:15}} />}
+                     />
+         
+              </Grid>
+            </Grid>
+            <Grid container>
+
+            <Grid style={{marginRight:5}} item xs={12} md={5.8} >
+                     <Autocomplete
+                       disablePortal
+                       id="combo-box-demo"
+                       onChange={(event, value) => this.handleDistrictsChange(value)}
+                       options={this.state.selectedDistricts ? this.state.selectedDistricts.map(selectedDistrict => selectedDistrict.name) : []}
+                       maxWidth="sm"
+                       defaultValue={this.props.userAuthData.address.district}
+                       renderInput={(params) => <TextField type='text'  name="district"  {...params} label="Districts?"
+                       style={{marginBottom:15,marginTop:15}} />}
+                     />
+            </Grid>
+            <Grid item xs={12} md={6} >
+                   <Autocomplete
+                     disablePortal
+                     id="combo-box-demo"
+                     options={this.state.selectedQuarters ? this.state.selectedQuarters.map(selectedQuarter => selectedQuarter.name) : []}
+                     maxWidth="sm"
+                     defaultValue={this.props.userAuthData.address.neighborhood}
+                     renderInput={(params) => <TextField type='text'  name="neighborhood"  {...params} label=" Quarters?"
+                     style={{marginBottom:15,marginTop:15}} />}
+                   />
+            
+            </Grid>
+            </Grid>
+
             <TextField
               name="text"
               label='Bio'
@@ -356,9 +471,7 @@ class EditUser extends Component {
               margin="normal"
             />
     
-       {/* Add more fields here for other user attributes */}
-       {/* <progress value={this.state.imageProgressBar} max="100" />
-       */}
+  
 
            </Container>  
            <div className="uploadButton">

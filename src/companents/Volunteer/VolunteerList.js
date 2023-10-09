@@ -141,6 +141,7 @@ const VolunteerList = ({users}) => {
             }
           />
           <Rating
+                style={{marginTop:"20px", marginRight:15}}
             name="score"
             value={editingVolunteer?.score || 0}
             onChange={(event, newValue) =>

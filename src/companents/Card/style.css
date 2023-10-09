@@ -117,3 +117,35 @@
 .data:last-child{
     border-right: none;
 }
+
+@media (max-width: 767px) {
+    .body1{
+        margin-left: 10px; /* Misol: o'lchamni moslashtirish */
+        margin-top: 5px; /* Misol: o'lchamni moslashtirish */
+    }
+
+    .profile-card_bir {
+        max-width:650px; /* Misol: o'lchamni moslashtirish */
+        width: 100%;
+    }
+
+    .profile-card_bir .profile-card_bir::before {
+        height: 30%; /* Misol: o'lchamni moslashtirish */
+        border-radius: 18px 18px 0 0; /* Misol: radiusni moslashtirish */
+    }
+
+    .image {
+        height: 120px; /* Misol: o'lchamni moslashtirish */
+        width: 120px; /* Misol: o'lchamni moslashtirish */
+    }
+
+    .text-data .name {
+        font-size: 18px; /* Misol: o'lchamni moslashtirish */
+    }
+
+    .text-data .job {
+        font-size: 12px; /* Misol: o'lchamni moslashtirish */
+    }
+
+    /* Boshqa o'zgarishlarni qo'shing... */
+}

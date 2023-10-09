@@ -95,7 +95,7 @@ function Profile(props) {
               <div className="userName">
                 <Typography variant="h5" className="name">{volunteers.firstName} {volunteers.lastName}</Typography>
                 <div className="map">
-                  <Room className="ri" />  <span>{volunteers.place}</span>   
+                  <Room className="ri" />  <span>{volunteers.address.country}</span>   
           
              <Grid  sx={{  display: { xs: "none", sm: "block"}}} item ><div className='bush'></div> </Grid>
              <div className='settings'>  {props.userId == volunteers.volunteerId ? (<Setting userAuthData={volunteers}  />) : ( '')}</div> 

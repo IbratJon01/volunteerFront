@@ -6,6 +6,11 @@ const getAllVolunteers = () => {
   return axios.get(API_BASE_URL);
 };
 
+const getAllStatisticsVolunteers = () => {
+  return axios.get(`${API_BASE_URL}/${'subscription-statistics'}`);
+};
+
+
 const getVolunteerById = (id) => {
   return axios.get(`${API_BASE_URL}/${id}`);
 };
@@ -28,4 +33,5 @@ export {
   createVolunteer,
   updateVolunteer,
   deleteVolunteer,
+  getAllStatisticsVolunteers
 };

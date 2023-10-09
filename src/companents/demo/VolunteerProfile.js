@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getVolunteerById } from '../Volunteer/VolunteerService';
 import Rating from '@mui/material/Rating';
-import { Container, Grid, Card, CardContent, Typography, Avatar, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Container, Grid, Card, CardContent, Typography, Avatar} from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmailIcon from '@mui/icons-material/Email';
@@ -13,13 +13,14 @@ import Setting from '../Account/Setting'
 const VolunteerProfile = (props) => {
   const { id } = useParams();
   const [volunteer, setVolunteer] = useState({});
+  console.log(volunteer.address?volunteer.address.region:'Loading...');
 
   useEffect(() => {
     getVolunteerById(id).then((response) => {
       setVolunteer(response.data);
     });
   }, [id]);
-  const score = volunteer.score
+
 
 
   return (
@@ -72,7 +73,7 @@ const VolunteerProfile = (props) => {
             <div className="userName">
               <Typography variant="h5" className="name">{volunteer.firstName} {volunteer.lastName}</Typography>
               <div className="map">
-                <Room className="ri" />  <span>{volunteer.place}</span>
+                <Room className="ri" />  <span>{volunteer.address?volunteer.address.region:'Loading...'}</span>
    
         
            <Grid  sx={{  display: { xs: "none", sm: "block"}}} item ><div className='bush'></div> </Grid>
@@ -125,7 +126,7 @@ const VolunteerProfile = (props) => {
           <span className='page_name'>
               <LocationOnIcon className='icons' /> Address:
           </span>
-              <span> {volunteer.place}</span>
+              <span>{volunteer.address?volunteer.address.country:'Loading...'} ,{volunteer.address?volunteer.address.region:'Loading...'} ,{volunteer.address?volunteer.address.district:'Loading...'}, {volunteer.address?volunteer.address.neighborhood:'Loading...'}</span>
           </div>
           <div className='contact_page'>
           <br/>
